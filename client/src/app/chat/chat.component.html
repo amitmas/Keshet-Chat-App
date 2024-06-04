@@ -1,0 +1,51 @@
+<mat-toolbar>
+  {{ user.userName }}
+  <span style="flex: 1"></span>
+  <button mat-stroked-button (click)="createChat()">New Chat</button>
+  <button mat-stroked-button (click)="signout()">Sign out</button>
+</mat-toolbar>
+@if(twilio.connectionState == 'connected') {
+<mat-sidenav-container class="chat-container">
+  <mat-sidenav opened mode="side">
+    <h3>Chat Rooms</h3>
+    <mat-nav-list>
+      @if(chats) { @for (chat of chats; track chat.sid) {
+      <a
+        mat-list-item
+        [activated]="chat.sid === selectedChat?.sid"
+        (click)="setSelectedChat(chat)"
+        >{{ chat.friendlyName }}</a
+      >
+      } @empty { Empty chat list. Create your first chat! } } @else { Loading
+      chats... }
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content class="conversation">
+    <h3>{{ selectedChat?.friendlyName }}</h3>
+    <div class="messages">
+      @for (message of messages; track message.sid) {
+      <mat-card class="message">
+        <mat-card-title class="title">{{ message.author }}</mat-card-title>
+        <mat-card-content class="content">{{ message.body }}</mat-card-content>
+        <mat-card-footer class="footer">{{
+          message.dateUpdated | date : "dd/MM/yyyy HH:mm"
+        }}</mat-card-footer>
+      </mat-card>
+      }
+    </div>
+    <div class="new-message">
+      <mat-form-field class="new-message-field">
+        <mat-label>Your message</mat-label>
+        <input matInput type="text" [(ngModel)]="newMessage" />
+        <button mat-icon-button matSuffix (click)="sendNewMessage()">
+          <mat-icon>send</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+} @else if(twilio.connectionState == 'connecting') {
+<mat-spinner></mat-spinner>
+} @else {
+<h1>Chat service failed to initialize</h1>
+}

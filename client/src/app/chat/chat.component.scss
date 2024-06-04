@@ -1,0 +1,36 @@
+.chat-container {
+  min-height: calc(100vh - 64px);
+}
+
+.conversation {
+  height: calc(100vh - 64px);
+  overflow: inherit;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 64px auto 64px;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  .messages {
+    overflow-y: auto;
+    overflow-x: hidden;
+    .message {
+      margin: 8px;
+      .title,
+      .footer {
+        font-size: 14px;
+        color: #888;
+        padding: 0 8px;
+      }
+      .footer {
+        text-align: end;
+      }
+    }
+  }
+
+  .new-message {
+    padding: 0 10px;
+    .new-message-field {
+      width: 100%;
+    }
+  }
+}

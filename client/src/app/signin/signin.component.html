@@ -1,0 +1,38 @@
+<mat-card>
+  <mat-card-header><h2>Sign in</h2></mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="signinForm" (ngSubmit)="signin()" class="signin-form">
+      @if(hasError) {
+      <mat-error>No user found by provided details</mat-error>
+      }
+      <mat-form-field>
+        <input
+          matInput
+          type="text"
+          placeholder="Username"
+          formControlName="userName"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
+          type="password"
+          placeholder="Password"
+          formControlName="password"
+        />
+      </mat-form-field>
+      <button
+        mat-raised-button
+        type="submit"
+        color="primary"
+        [disabled]="!signinForm.valid"
+      >
+        Sign in
+      </button>
+      <p>Or</p>
+      <button mat-button type="button" [routerLink]="['/signup']">
+        Sign up
+      </button>
+    </form>
+  </mat-card-content>
+</mat-card>
